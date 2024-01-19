@@ -1,0 +1,31 @@
+*** Variables ***
+
+#AsterWeb
+${aster_web_url}    https://star-inno-sit.arisetech.dev/
+${aster_api_url_SIT}    https://api-external-star-inno-sit.arisetech.dev
+
+#BackOffice
+${backoffice_web_url_SIT}    https://star-inno-admin-sit.arisetech.dev/login/
+${backoffice_api_url_SIT}    https://api-external-star-inno-admin-sit.arisetech.dev
+
+#wording
+${aster_title}    Aster | Arise by INFINITAS
+
+#session_token
+${session_token}     eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTY5ODE0MTgzMiwiaWF0IjoxNjk4MTM4MjMyLCJub25jZSI6ImUxZDFiOWU1LWFmMWUtNGRkMC1iODk2LWEyMDNmMGMwN2UwMyIsInB1YmxpY0FkZHJlc3MiOiIweEYzODAyRTA0N0VkYWE2NzNGODQ1MjJmMTg0MkQyNUNBNjYwNkE5ZDgifQ.CINqIZ0pp_7sGl02QGSkNzBxCg13S8w8mLj_23G4vUE
+
+${wallet_id}    0x81122F39D43a9076A4dc6e55193E43032Bc3C8c6
+
+${picture_file1}    /Users/a667038/Downloads/JPEG_file4.jpeg
+
+#Session Token Back Office
+${user_management_session_token}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNTg4MywiaWF0IjoxNjkzNDgxODgzLCJ1c2VySWQiOiI5MDZhNzgxOS03YTk3LTQ4MGItYjM4MS00MTk3YzVmYWFkMGEiLCJ1c2VyTmFtZSI6IkFzdGVyMSBJbnRlcm5hbCIsInJvbGVJZCI6Niwicm9sZU5hbWUiOiJVU0VSIE1BTkFHRVIiLCJlbXBsb3llZUlkIjoiMDAwMDAxIiwiZW1haWwiOiJhc3Rlci5pbnRlcm5hbDFAZ21haWwuY29tIn0.jYaiWEqL6r6mw0LFyBaEjrb2pxAIl-C7I5TunsBqP6c
+${admin_session_token}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc
+${user_management_session_token_exp}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTY5Mjg1Mzk4OCwiaWF0IjoxNjkyODUwMzg4LCJ1c2VySWQiOiJjZTkzMGI5ZC0wNWEyLTQzMDItOGUxMC03OWViM2FkOTg4NDUiLCJ1c2VyTmFtZSI6Ik5pcGFwaG9ybiBLaGFudGlraXQiLCJyb2xlSWQiOjYsInJvbGVOYW1lIjoiVVNFUiBNQU5BR0VSIiwiZW1wbG95ZWVJZCI6IjY2NzAzOCIsImVtYWlsIjoibmlwYXBob3JuLmtAYXJpc2UudGVjaCJ9.M8pMWR8IjldvD6ookj2EHIL5jUOJybKwa287Qs1dhy4
+${admin_session_token_exp}    eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTY5MzI4NjMxNCwiaWF0IjoxNjkzMjgyNzE0LCJ1c2VySWQiOiJjZTkzMGI5ZC0wNWEyLTQzMDItOGUxMC03OWViM2FkOTg4NDUiLCJ1c2VyTmFtZSI6Ik5pcGFwaG9ybiBLaGFudGlraXQiLCJyb2xlSWQiOjEsInJvbGVOYW1lIjoiQURNSU4iLCJlbXBsb3llZUlkIjoiNjY3MDM4IiwiZW1haWwiOiJuaXBhcGhvcm4ua0BhcmlzZS50ZWNoIn0.kXWHhth18NMkPkVl4q-D7kaiahYrMf6JaZtvhprAqpU
+${ssd}  rtet
+
+#Data for test UserAPIs
+
+${email_test_userapis}             pon.k@infinitaskt.com
+${fullname_test_userapis}          Pon Karevachirapan

@@ -1,0 +1,933 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1 (Python 3.11.4 on darwin)" generated="20240112 14:05:41.184" rpa="false" schemaversion="4">
+<suite id="s1" name="Aster-Automation" source="/Users/user/Automate/aster-automation">
+<suite id="s1-s1" name="Testcases" source="/Users/user/Automate/aster-automation/testcases">
+<suite id="s1-s1-s1" name="WebAdmin" source="/Users/user/Automate/aster-automation/testcases/WebAdmin">
+<suite id="s1-s1-s1-s1" name="AssetAPIs" source="/Users/user/Automate/aster-automation/testcases/WebAdmin/AssetAPIs">
+<suite id="s1-s1-s1-s1-s1" name="Delete Asset By Asset Id" source="/Users/user/Automate/aster-automation/testcases/WebAdmin/AssetAPIs/delete_asset_by_asset_id.robot">
+<test id="s1-s1-s1-s1-s1-t1" name="TC-01-001" line="12">
+<kw name="Updated Asset At DB for Delete" library="asset_apis">
+<arg>${asset_id}</arg>
+<doc>Verify Deleted Asset At DB</doc>
+<kw name="DB_CONNECT" library="common_keywords">
+<kw name="Connect To Database" library="DatabaseLibrary">
+<arg>psycopg2</arg>
+<arg>${DBName}</arg>
+<arg>${DBUser}</arg>
+<arg>${DBPass}</arg>
+<arg>${DBHost}</arg>
+<arg>${DBPort}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using `dbName`, `dbUsername`, and `dbPassword`.</doc>
+<msg timestamp="20240112 14:05:41.752" level="INFO">Connecting using : psycopg2.connect(database=postgres, user=starinnousr, password=***, host=34.124.160.63, port=5432) </msg>
+<status status="PASS" starttime="20240112 14:05:41.702" endtime="20240112 14:05:42.306"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:41.702" endtime="20240112 14:05:42.307"/>
+</kw>
+<kw name="Execute Sql String" library="DatabaseLibrary">
+<var>${update}</var>
+<arg>UPDATE assets SET deleted_date_time = Null WHERE asset_id=${assetId};</arg>
+<doc>Executes the sqlString as SQL commands. Useful to pass arguments to your sql. Set optional input `sansTran` to
+True to run command without an explicit transaction commit or rollback.</doc>
+<msg timestamp="20240112 14:05:42.309" level="INFO">Executing : Execute SQL String  |  UPDATE assets SET deleted_date_time = Null WHERE asset_id=591; </msg>
+<msg timestamp="20240112 14:05:42.421" level="INFO">${update} = None</msg>
+<status status="PASS" starttime="20240112 14:05:42.308" endtime="20240112 14:05:42.422"/>
+</kw>
+<kw name="DB_CLOSE" library="common_keywords">
+<kw name="Disconnect From Database" library="DatabaseLibrary">
+<doc>Disconnects from the database.
+By default it's not an error if there was no open database connection -
+suitable for usage as a teardown.
+However you can enforce it using the `error_if_no_connection` parameter.</doc>
+<msg timestamp="20240112 14:05:42.423" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20240112 14:05:42.423" endtime="20240112 14:05:42.425"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:42.422" endtime="20240112 14:05:42.425"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:41.701" endtime="20240112 14:05:42.425"/>
+</kw>
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:42.428" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlk...</msg>
+<status status="PASS" starttime="20240112 14:05:42.427" endtime="20240112 14:05:42.428"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:42.745" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:42.745" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=200, reason=OK 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:42 GMT', 'Content-Length': '34', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":2000,"message":"Success."} 
+ </msg>
+<msg timestamp="20240112 14:05:42.746" level="INFO">${resp} = &lt;Response [200]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:42.429" endtime="20240112 14:05:42.746"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:42.748" level="INFO">${resp} = {'code': 2000, 'message': 'Success.'}</msg>
+<status status="PASS" starttime="20240112 14:05:42.746" endtime="20240112 14:05:42.749"/>
+</kw>
+<msg timestamp="20240112 14:05:42.749" level="INFO">${resp} = {'code': 2000, 'message': 'Success.'}</msg>
+<status status="PASS" starttime="20240112 14:05:42.426" endtime="20240112 14:05:42.749"/>
+</kw>
+<kw name="Assert Http Status Code Is 200 Ok" library="http_status_code">
+<doc>verify http status code is 200</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>200</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:42.751" endtime="20240112 14:05:42.752"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:42.750" endtime="20240112 14:05:42.752"/>
+</kw>
+<kw name="Assert Response Status Object With 2000 Success" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 2000 success</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>2000</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240112 14:05:42.756" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:42.754" endtime="20240112 14:05:42.757"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Success.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:42.757" endtime="20240112 14:05:42.759"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:42.752" endtime="20240112 14:05:42.760"/>
+</kw>
+<kw name="Verify Deleted Asset At DB" library="asset_apis">
+<var>${query_asset}</var>
+<arg>${asset_id}</arg>
+<doc>Verify Deleted Asset At DB</doc>
+<kw name="DB_CONNECT" library="common_keywords">
+<kw name="Connect To Database" library="DatabaseLibrary">
+<arg>psycopg2</arg>
+<arg>${DBName}</arg>
+<arg>${DBUser}</arg>
+<arg>${DBPass}</arg>
+<arg>${DBHost}</arg>
+<arg>${DBPort}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using `dbName`, `dbUsername`, and `dbPassword`.</doc>
+<msg timestamp="20240112 14:05:42.763" level="INFO">Connecting using : psycopg2.connect(database=postgres, user=starinnousr, password=***, host=34.124.160.63, port=5432) </msg>
+<status status="PASS" starttime="20240112 14:05:42.763" endtime="20240112 14:05:43.051"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:42.762" endtime="20240112 14:05:43.051"/>
+</kw>
+<kw name="Query" library="DatabaseLibrary">
+<var>@{query_asset}</var>
+<arg>SELECT * FROM assets WHERE asset_id='${assetId}' and deleted_date_time is not null;</arg>
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional
+input `sansTran` to True to run command without an explicit transaction commit or rollback.
+Set optional input `returnAsDict` to True to return values as a list of dictionaries.</doc>
+<msg timestamp="20240112 14:05:43.053" level="INFO">Executing : Query  |  SELECT * FROM assets WHERE asset_id='591' and deleted_date_time is not null; </msg>
+<msg timestamp="20240112 14:05:43.159" level="INFO">@{query_asset} = [ (591, "Don't Delete!! (Automate Test)", 'https://star-inno-sit-asset.arisetech.dev/main/images/asset/591_image', datetime.datetime(2024, 1, 11, 17, 0, tzinfo=datetime.timezone.utc), None, 1, 1, [{'d...</msg>
+<status status="PASS" starttime="20240112 14:05:43.052" endtime="20240112 14:05:43.159"/>
+</kw>
+<kw name="Log Many" library="BuiltIn">
+<arg>@{query_asset}</arg>
+<doc>Logs the given messages as separate entries using the INFO level.</doc>
+<msg timestamp="20240112 14:05:43.160" level="INFO">(591, "Don't Delete!! (Automate Test)", 'https://star-inno-sit-asset.arisetech.dev/main/images/asset/591_image', datetime.datetime(2024, 1, 11, 17, 0, tzinfo=datetime.timezone.utc), None, 1, 1, [{'description': 'Ariser will keep going cause this NFT means you are the best sharing.', 'external_url': 'https://star-inno-sit-asset.arisetech.dev/main/images/asset/542_image', 'image': 'https://star-inno-sit-asset.arisetech.dev/main/images/asset/542_image', 'name': 'The Speaker of Mastering Practical TDD', 'attributes': [{'trait_type': 'Type', 'value': 'AAB'}, {'trait_type': 'Category', 'value': 'Associated'}, {'trait_type': 'Asset Group', 'value': 'Speaker'}, {'trait_type': 'Event', 'value': 'Knowledge Sharing'}, {'trait_type': 'Campaign', 'value': 'The Speaker 2023'}, {'trait_type': 'Tier', 'value': '1'}]}], True, datetime.datetime(2024, 1, 12, 6, 47, 20, 339112, tzinfo=datetime.timezone.utc), datetime.datetime(2024, 1, 12, 6, 47, 20, 459094, tzinfo=datetime.timezone.utc), datetime.datetime(2024, 1, 12, 7, 5, 42, 742281, tzinfo=datetime.timezone.utc), '', 1)</msg>
+<status status="PASS" starttime="20240112 14:05:43.160" endtime="20240112 14:05:43.160"/>
+</kw>
+<kw name="Set Test Variable" library="BuiltIn">
+<arg>@{query_asset}</arg>
+<doc>Makes a variable available everywhere within the scope of the current test.</doc>
+<msg timestamp="20240112 14:05:43.162" level="INFO">@{query_asset} = [ (591, "Don't Delete!! (Automate Test)", 'https://star-inno-sit-asset.arisetech.dev/main/images/asset/591_image', datetime.datetime(2024, 1, 11, 17, 0, tzinfo=datetime.timezone.utc), None, 1, 1, [{'d...</msg>
+<status status="PASS" starttime="20240112 14:05:43.161" endtime="20240112 14:05:43.162"/>
+</kw>
+<kw name="DB_CLOSE" library="common_keywords">
+<kw name="Disconnect From Database" library="DatabaseLibrary">
+<doc>Disconnects from the database.
+By default it's not an error if there was no open database connection -
+suitable for usage as a teardown.
+However you can enforce it using the `error_if_no_connection` parameter.</doc>
+<msg timestamp="20240112 14:05:43.163" level="INFO">Executing : Disconnect From Database</msg>
+<status status="PASS" starttime="20240112 14:05:43.163" endtime="20240112 14:05:43.165"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.162" endtime="20240112 14:05:43.165"/>
+</kw>
+<msg timestamp="20240112 14:05:43.166" level="INFO">${query_asset} = None</msg>
+<status status="PASS" starttime="20240112 14:05:42.761" endtime="20240112 14:05:43.166"/>
+</kw>
+<doc>DELETE asset by asset_id success</doc>
+<status status="PASS" starttime="20240112 14:05:41.699" endtime="20240112 14:05:43.167"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t2" name="TC-01-002" line="20">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.172" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlk...</msg>
+<status status="PASS" starttime="20240112 14:05:43.171" endtime="20240112 14:05:43.172"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:43.308" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:43.308" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:43 GMT', 'Content-Length': '78', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4040,"message":"Invalid parameter request.","error":"asset not found"} 
+ </msg>
+<msg timestamp="20240112 14:05:43.312" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.172" endtime="20240112 14:05:43.312"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:43.315" level="INFO">${resp} = {'code': 4040, 'message': 'Invalid parameter request.', 'error': 'asset not found'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.313" endtime="20240112 14:05:43.315"/>
+</kw>
+<msg timestamp="20240112 14:05:43.315" level="INFO">${resp} = {'code': 4040, 'message': 'Invalid parameter request.', 'error': 'asset not found'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.170" endtime="20240112 14:05:43.315"/>
+</kw>
+<kw name="Assert Response Status Object With 4040 Invalid Parameter Request" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert Response Status Object With 4040 Invalid Parameter Request</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4040</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240112 14:05:43.319" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.317" endtime="20240112 14:05:43.320"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Invalid parameter request.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.320" endtime="20240112 14:05:43.322"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.316" endtime="20240112 14:05:43.323"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- asset id has deleted before</doc>
+<status status="PASS" starttime="20240112 14:05:43.169" endtime="20240112 14:05:43.323"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t3" name="TC-01-003" line="27">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>abcd</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.329" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlk...</msg>
+<status status="PASS" starttime="20240112 14:05:43.328" endtime="20240112 14:05:43.329"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:43.460" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/abcd 
+ path_url=/admin-service/v1/assets/abcd 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:43.461" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/abcd 
+ status=400, reason=Bad Request 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:43 GMT', 'Content-Length': '109', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4002,"message":"Invalid parameter request.","error":"strconv.Atoi: parsing \"abcd\": invalid syntax"} 
+ </msg>
+<msg timestamp="20240112 14:05:43.463" level="INFO">${resp} = &lt;Response [400]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.330" endtime="20240112 14:05:43.463"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:43.465" level="INFO">${resp} = {'code': 4002, 'message': 'Invalid parameter request.', 'error': 'strconv.Atoi: parsing "abcd": invalid syntax'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.464" endtime="20240112 14:05:43.465"/>
+</kw>
+<msg timestamp="20240112 14:05:43.465" level="INFO">${resp} = {'code': 4002, 'message': 'Invalid parameter request.', 'error': 'strconv.Atoi: parsing "abcd": invalid syntax'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.327" endtime="20240112 14:05:43.465"/>
+</kw>
+<kw name="Assert Response Status Object With 4002 Invalid Parameter Request" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4002 Invalid Parameter Request</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4002</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240112 14:05:43.468" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.467" endtime="20240112 14:05:43.468"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Invalid parameter request.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.468" endtime="20240112 14:05:43.470"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.466" endtime="20240112 14:05:43.470"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- asset id is wrong format/type</doc>
+<status status="PASS" starttime="20240112 14:05:43.326" endtime="20240112 14:05:43.470"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t4" name="TC-01-004" line="34">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id_is_not_found}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.473" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlk...</msg>
+<status status="PASS" starttime="20240112 14:05:43.473" endtime="20240112 14:05:43.473"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:43.603" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/9999 
+ path_url=/admin-service/v1/assets/9999 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:43.604" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/9999 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:43 GMT', 'Content-Length': '78', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4040,"message":"Invalid parameter request.","error":"asset not found"} 
+ </msg>
+<msg timestamp="20240112 14:05:43.607" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.473" endtime="20240112 14:05:43.607"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:43.609" level="INFO">${resp} = {'code': 4040, 'message': 'Invalid parameter request.', 'error': 'asset not found'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.608" endtime="20240112 14:05:43.609"/>
+</kw>
+<msg timestamp="20240112 14:05:43.610" level="INFO">${resp} = {'code': 4040, 'message': 'Invalid parameter request.', 'error': 'asset not found'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.472" endtime="20240112 14:05:43.610"/>
+</kw>
+<kw name="Assert Response Status Object With 4040 Invalid Parameter Request" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert Response Status Object With 4040 Invalid Parameter Request</doc>
+<kw name="Should Be Equal As Integers" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4040</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<msg timestamp="20240112 14:05:43.615" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.611" endtime="20240112 14:05:43.615"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Invalid parameter request.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.615" endtime="20240112 14:05:43.617"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.610" endtime="20240112 14:05:43.617"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- asset id is not found or not existing</doc>
+<status status="PASS" starttime="20240112 14:05:43.471" endtime="20240112 14:05:43.618"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t5" name="TC-02-001" line="41">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}test</arg>
+<arg>${asset_id}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.622" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlk...</msg>
+<status status="PASS" starttime="20240112 14:05:43.620" endtime="20240112 14:05:43.622"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:43.752" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwctest', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:43.752" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=401, reason=Unauthorized 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:43 GMT', 'Content-Length': '109', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4012,"message":"Failed to verify session token or token has expired.","error":"signature is invalid"} 
+ </msg>
+<msg timestamp="20240112 14:05:43.754" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.623" endtime="20240112 14:05:43.754"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:43.756" level="INFO">${resp} = {'code': 4012, 'message': 'Failed to verify session token or token has expired.', 'error': 'signature is invalid'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.755" endtime="20240112 14:05:43.756"/>
+</kw>
+<msg timestamp="20240112 14:05:43.756" level="INFO">${resp} = {'code': 4012, 'message': 'Failed to verify session token or token has expired.', 'error': 'signature is invalid'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.619" endtime="20240112 14:05:43.756"/>
+</kw>
+<kw name="Assert Http Status Code Is 401 Unauthorized" library="http_status_code">
+<doc>verify http status code is 401</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>401</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:43.758" endtime="20240112 14:05:43.758"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.757" endtime="20240112 14:05:43.758"/>
+</kw>
+<kw name="Assert Response Status Object With 4012 Unauthorized" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4012 unauthorized</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4012</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20240112 14:05:43.761" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.759" endtime="20240112 14:05:43.761"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Failed to verify session token or token has expired.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.761" endtime="20240112 14:05:43.762"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.759" endtime="20240112 14:05:43.762"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp['error']}</arg>
+<arg>signature is invalid</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.763" endtime="20240112 14:05:43.764"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- invalid session token</doc>
+<status status="PASS" starttime="20240112 14:05:43.618" endtime="20240112 14:05:43.764"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t6" name="TC-02-002" line="50">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token_exp}</arg>
+<arg>${asset_id}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.770" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTY5MzI4NjMxNCwiaWF0IjoxNjkzMjgyNzE0LCJ1c2VySWQiOiJjZTkzMGI5ZC0wNWEyLTQzMDItOGUx...</msg>
+<status status="PASS" starttime="20240112 14:05:43.769" endtime="20240112 14:05:43.770"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:43.907" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTY5MzI4NjMxNCwiaWF0IjoxNjkzMjgyNzE0LCJ1c2VySWQiOiJjZTkzMGI5ZC0wNWEyLTQzMDItOGUxMC03OWViM2FkOTg4NDUiLCJ1c2VyTmFtZSI6Ik5pcGFwaG9ybiBLaGFudGlraXQiLCJyb2xlSWQiOjEsInJvbGVOYW1lIjoiQURNSU4iLCJlbXBsb3llZUlkIjoiNjY3MDM4IiwiZW1haWwiOiJuaXBhcGhvcm4ua0BhcmlzZS50ZWNoIn0.kXWHhth18NMkPkVl4q-D7kaiahYrMf6JaZtvhprAqpU', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:43.907" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=401, reason=Unauthorized 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:43 GMT', 'Content-Length': '129', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4012,"message":"Failed to verify session token or token has expired.","error":"token is expired by 3265h47m9.926560355s"} 
+ </msg>
+<msg timestamp="20240112 14:05:43.910" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.771" endtime="20240112 14:05:43.911"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:43.913" level="INFO">${resp} = {'code': 4012, 'message': 'Failed to verify session token or token has expired.', 'error': 'token is expired by 3265h47m9.926560355s'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.911" endtime="20240112 14:05:43.913"/>
+</kw>
+<msg timestamp="20240112 14:05:43.913" level="INFO">${resp} = {'code': 4012, 'message': 'Failed to verify session token or token has expired.', 'error': 'token is expired by 3265h47m9.926560355s'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.768" endtime="20240112 14:05:43.913"/>
+</kw>
+<kw name="Assert Http Status Code Is 401 Unauthorized" library="http_status_code">
+<doc>verify http status code is 401</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>401</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:43.914" endtime="20240112 14:05:43.915"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.914" endtime="20240112 14:05:43.915"/>
+</kw>
+<kw name="Assert Response Status Object With 4012 Unauthorized" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4012 unauthorized</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4012</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20240112 14:05:43.921" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.917" endtime="20240112 14:05:43.922"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Failed to verify session token or token has expired.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:43.922" endtime="20240112 14:05:43.924"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:43.916" endtime="20240112 14:05:43.924"/>
+</kw>
+<kw name="Should Contain" library="BuiltIn">
+<arg>${resp['error']}</arg>
+<arg>token is expired by</arg>
+<doc>Fails if ``container`` does not contain ``item`` one or more times.</doc>
+<status status="PASS" starttime="20240112 14:05:43.924" endtime="20240112 14:05:43.925"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- session token expired</doc>
+<status status="PASS" starttime="20240112 14:05:43.767" endtime="20240112 14:05:43.926"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t7" name="TC-02-003" line="59">
+<kw name="Delete Asset By ID" library="asset_apis">
+<var>${resp}</var>
+<arg>${EMPTY}</arg>
+<arg>${asset_id}</arg>
+<doc>Delete asset by id</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=Bearer ${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:43.931" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=Bearer  }</msg>
+<status status="PASS" starttime="20240112 14:05:43.931" endtime="20240112 14:05:43.932"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:44.066" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'Bearer ', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:44.067" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=401, reason=Unauthorized 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:44 GMT', 'Content-Length': '133', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4011,"message":"Session token is null or empty string.","error":"Unable to parse token. Token might be empty string or null"} 
+ </msg>
+<msg timestamp="20240112 14:05:44.069" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:43.932" endtime="20240112 14:05:44.069"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:44.071" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:44.069" endtime="20240112 14:05:44.071"/>
+</kw>
+<msg timestamp="20240112 14:05:44.071" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:43.929" endtime="20240112 14:05:44.071"/>
+</kw>
+<kw name="Assert Http Status Code Is 401 Unauthorized" library="http_status_code">
+<doc>verify http status code is 401</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>401</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:44.072" endtime="20240112 14:05:44.072"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.071" endtime="20240112 14:05:44.072"/>
+</kw>
+<kw name="Assert Response Status Object With 4011 Unauthorized" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4011 unauthorized</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4011</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20240112 14:05:44.074" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.073" endtime="20240112 14:05:44.074"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Session token is null or empty string.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.075" endtime="20240112 14:05:44.076"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.073" endtime="20240112 14:05:44.076"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp['error']}</arg>
+<arg>Unable to parse token. Token might be empty string or null</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.076" endtime="20240112 14:05:44.077"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- session token is an empty</doc>
+<status status="PASS" starttime="20240112 14:05:43.928" endtime="20240112 14:05:44.078"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t8" name="TC-02-004" line="68">
+<kw name="Delete Asset By ID But Bearer Is Not Send" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id}</arg>
+<doc>GET all assets group fail</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:44.082" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzR...</msg>
+<status status="PASS" starttime="20240112 14:05:44.082" endtime="20240112 14:05:44.082"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:44.210" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:44.211" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=401, reason=Unauthorized 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:44 GMT', 'Content-Length': '133', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4011,"message":"Session token is null or empty string.","error":"Unable to parse token. Token might be empty string or null"} 
+ </msg>
+<msg timestamp="20240112 14:05:44.213" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.083" endtime="20240112 14:05:44.213"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:44.215" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:44.213" endtime="20240112 14:05:44.215"/>
+</kw>
+<msg timestamp="20240112 14:05:44.215" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:44.081" endtime="20240112 14:05:44.215"/>
+</kw>
+<kw name="Assert Http Status Code Is 401 Unauthorized" library="http_status_code">
+<doc>verify http status code is 401</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>401</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:44.217" endtime="20240112 14:05:44.217"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.216" endtime="20240112 14:05:44.218"/>
+</kw>
+<kw name="Assert Response Status Object With 4011 Unauthorized" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4011 unauthorized</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4011</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20240112 14:05:44.220" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.219" endtime="20240112 14:05:44.221"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Session token is null or empty string.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.221" endtime="20240112 14:05:44.223"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.218" endtime="20240112 14:05:44.223"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp['error']}</arg>
+<arg>Unable to parse token. Token might be empty string or null</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.223" endtime="20240112 14:05:44.224"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- session token (bearer) is not send</doc>
+<status status="PASS" starttime="20240112 14:05:44.080" endtime="20240112 14:05:44.225"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t9" name="TC-02-005" line="77">
+<kw name="Delete Asset By ID But Token Is Not Send" library="asset_apis">
+<var>${resp}</var>
+<doc>GET all events fail</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:44.229" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status status="PASS" starttime="20240112 14:05:44.228" endtime="20240112 14:05:44.229"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:44.358" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:44.358" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=401, reason=Unauthorized 
+ headers={'Content-Type': 'application/json; charset=utf-8', 'Date': 'Fri, 12 Jan 2024 07:05:44 GMT', 'Content-Length': '133', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body={"code":4011,"message":"Session token is null or empty string.","error":"Unable to parse token. Token might be empty string or null"} 
+ </msg>
+<msg timestamp="20240112 14:05:44.360" level="INFO">${resp} = &lt;Response [401]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.229" endtime="20240112 14:05:44.361"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp.json()}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:44.362" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:44.361" endtime="20240112 14:05:44.362"/>
+</kw>
+<msg timestamp="20240112 14:05:44.363" level="INFO">${resp} = {'code': 4011, 'message': 'Session token is null or empty string.', 'error': 'Unable to parse token. Token might be empty string or null'}</msg>
+<status status="PASS" starttime="20240112 14:05:44.228" endtime="20240112 14:05:44.363"/>
+</kw>
+<kw name="Assert Http Status Code Is 401 Unauthorized" library="http_status_code">
+<doc>verify http status code is 401</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>401</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:44.365" endtime="20240112 14:05:44.366"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.364" endtime="20240112 14:05:44.366"/>
+</kw>
+<kw name="Assert Response Status Object With 4011 Unauthorized" library="assert_response">
+<arg>${resp}</arg>
+<doc>Assert response of status object in case 4011 unauthorized</doc>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['code']}</arg>
+<arg>4011</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20240112 14:05:44.369" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.367" endtime="20240112 14:05:44.369"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${response['message']}</arg>
+<arg>Session token is null or empty string.</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.370" endtime="20240112 14:05:44.372"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.367" endtime="20240112 14:05:44.372"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${resp['error']}</arg>
+<arg>Unable to parse token. Token might be empty string or null</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20240112 14:05:44.372" endtime="20240112 14:05:44.373"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- session token is not send</doc>
+<status status="PASS" starttime="20240112 14:05:44.225" endtime="20240112 14:05:44.374"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t10" name="TC-03-001" line="86">
+<kw name="Delete Asset By ID But Send Invalid Path" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id}</arg>
+<doc>Call API GET User Success</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:44.377" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status status="PASS" starttime="20240112 14:05:44.376" endtime="20240112 14:05:44.377"/>
+</kw>
+<kw name="DELETE" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${invalid_path}/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a DELETE request.</doc>
+<msg timestamp="20240112 14:05:44.506" level="INFO">DELETE Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/Dummy/591 
+ path_url=/admin-service/v1/assets/Dummy/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:44.507" level="INFO">DELETE Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/Dummy/591 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'text/plain', 'Date': 'Fri, 12 Jan 2024 07:05:44 GMT', 'Content-Length': '18', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body=404 page not found 
+ </msg>
+<msg timestamp="20240112 14:05:44.510" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.378" endtime="20240112 14:05:44.510"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:44.511" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.510" endtime="20240112 14:05:44.511"/>
+</kw>
+<msg timestamp="20240112 14:05:44.511" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.375" endtime="20240112 14:05:44.511"/>
+</kw>
+<kw name="Assert Http Status Code Is 404 Not Found" library="http_status_code">
+<doc>verify http status code is 404</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>404</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:44.513" endtime="20240112 14:05:44.513"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.512" endtime="20240112 14:05:44.514"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- invalid path</doc>
+<status status="PASS" starttime="20240112 14:05:44.374" endtime="20240112 14:05:44.514"/>
+</test>
+<test id="s1-s1-s1-s1-s1-t11" name="TC-03-002" line="93">
+<kw name="Delete Asset By ID But Send Invalid Method" library="asset_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<arg>${asset_id}</arg>
+<doc>Call API GET User Success</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<arg>Authorization=${token}</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20240112 14:05:44.520" level="INFO">&amp;{headers} = { Content-Type=application/json | Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzR...</msg>
+<status status="PASS" starttime="20240112 14:05:44.519" endtime="20240112 14:05:44.520"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/assets/${assetId}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20240112 14:05:44.648" level="INFO">POST Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ path_url=/admin-service/v1/assets/591 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhZG1pbiIsImV4cCI6MTcyNTAzNjAwMiwiaWF0IjoxNjkzNDgyMDAyLCJ1c2VySWQiOiJkOWQ4NmIxYy03ZDU5LTRiMDAtYjlkMC1jNzRiODk2MjljOTAiLCJ1c2VyTmFtZSI6IkFzdGVyMiBJbnRlcm5hbCIsInJvbGVJZCI6MSwicm9sZU5hbWUiOiJBRE1JTiIsImVtcGxveWVlSWQiOiIwMDAwMDIiLCJlbWFpbCI6ImFzdGVyLmludGVybmFsMkBnbWFpbC5jb20ifQ.0Nju-i8pES7ZVCbfMrPgDfD7b5UytUz7Kz32Z2xqKwc', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20240112 14:05:44.649" level="INFO">POST Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/assets/591 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'text/plain', 'Date': 'Fri, 12 Jan 2024 07:05:44 GMT', 'Content-Length': '18', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body=404 page not found 
+ </msg>
+<msg timestamp="20240112 14:05:44.649" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.521" endtime="20240112 14:05:44.649"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20240112 14:05:44.650" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.649" endtime="20240112 14:05:44.650"/>
+</kw>
+<msg timestamp="20240112 14:05:44.650" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20240112 14:05:44.518" endtime="20240112 14:05:44.650"/>
+</kw>
+<kw name="Assert Http Status Code Is 404 Not Found" library="http_status_code">
+<doc>verify http status code is 404</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>404</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20240112 14:05:44.651" endtime="20240112 14:05:44.652"/>
+</kw>
+<status status="PASS" starttime="20240112 14:05:44.651" endtime="20240112 14:05:44.652"/>
+</kw>
+<doc>DELETE asset by asset_id fail,
+In case of:
+- invalid method</doc>
+<status status="PASS" starttime="20240112 14:05:44.517" endtime="20240112 14:05:44.653"/>
+</test>
+<status status="PASS" starttime="20240112 14:05:41.221" endtime="20240112 14:05:44.656"/>
+</suite>
+<status status="PASS" starttime="20240112 14:05:41.218" endtime="20240112 14:05:44.659"/>
+</suite>
+<status status="PASS" starttime="20240112 14:05:41.213" endtime="20240112 14:05:44.661"/>
+</suite>
+<status status="PASS" starttime="20240112 14:05:41.211" endtime="20240112 14:05:44.663"/>
+</suite>
+<status status="PASS" starttime="20240112 14:05:41.188" endtime="20240112 14:05:44.665"/>
+</suite>
+<statistics>
+<total>
+<stat pass="11" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="11" fail="0" skip="0" id="s1" name="Aster-Automation">Aster-Automation</stat>
+<stat pass="11" fail="0" skip="0" id="s1-s1" name="Testcases">Aster-Automation.Testcases</stat>
+<stat pass="11" fail="0" skip="0" id="s1-s1-s1" name="WebAdmin">Aster-Automation.Testcases.WebAdmin</stat>
+<stat pass="11" fail="0" skip="0" id="s1-s1-s1-s1" name="AssetAPIs">Aster-Automation.Testcases.WebAdmin.AssetAPIs</stat>
+<stat pass="11" fail="0" skip="0" id="s1-s1-s1-s1-s1" name="Delete Asset By Asset Id">Aster-Automation.Testcases.WebAdmin.AssetAPIs.Delete Asset By Asset Id</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

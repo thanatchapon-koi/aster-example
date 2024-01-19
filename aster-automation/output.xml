@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1 (Python 3.11.4 on darwin)" generated="20231101 09:38:23.809" rpa="false" schemaversion="4">
+<suite id="s1" name="Get All Events" source="/Users/user/Automate/aster-automation/testcases/WebAdmin/EventAPIs/get_all_events.robot">
+<test id="s1-t1" name="TC-03-002" line="85">
+<kw name="Get event but send invalid method" library="event_apis">
+<var>${resp}</var>
+<arg>${admin_session_token}</arg>
+<doc>Call API GET User Success</doc>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>&amp;{headers}</var>
+<arg>Content-Type=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20231101 09:38:24.318" level="INFO">&amp;{headers} = { Content-Type=application/json }</msg>
+<status status="PASS" starttime="20231101 09:38:24.318" endtime="20231101 09:38:24.321"/>
+</kw>
+<kw name="POST" library="RequestsLibrary">
+<var>${resp}</var>
+<arg>${backoffice_api_url_SIT}/admin-service/v1/events/${invalid_path}</arg>
+<arg>headers=${headers}</arg>
+<arg>expected_status=any</arg>
+<doc>Sends a POST request.</doc>
+<msg timestamp="20231101 09:38:24.538" level="INFO">POST Request : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/events/Dummy 
+ path_url=/admin-service/v1/events/Dummy 
+ headers={'User-Agent': 'python-requests/2.31.0', 'Accept-Encoding': 'gzip, deflate', 'Accept': '*/*', 'Connection': 'keep-alive', 'Content-Type': 'application/json', 'Content-Length': '0'} 
+ body=None 
+ </msg>
+<msg timestamp="20231101 09:38:24.539" level="INFO">POST Response : url=https://api-external-star-inno-admin-sit.arisetech.dev/admin-service/v1/events/Dummy 
+ status=404, reason=Not Found 
+ headers={'Content-Type': 'text/plain', 'Date': 'Wed, 01 Nov 2023 02:38:24 GMT', 'Content-Length': '18', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'} 
+ body=404 page not found 
+ </msg>
+<msg timestamp="20231101 09:38:24.539" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20231101 09:38:24.321" endtime="20231101 09:38:24.539"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${resp}</var>
+<arg>${resp}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20231101 09:38:24.540" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20231101 09:38:24.540" endtime="20231101 09:38:24.541"/>
+</kw>
+<msg timestamp="20231101 09:38:24.541" level="INFO">${resp} = &lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20231101 09:38:24.317" endtime="20231101 09:38:24.542"/>
+</kw>
+<kw name="Assert Http Status Code Is 404 Not Found" library="http_status_code">
+<doc>verify http status code is 404</doc>
+<kw name="Status Should Be" library="RequestsLibrary">
+<arg>404</arg>
+<doc>Fails if response status code is different than the expected.</doc>
+<status status="PASS" starttime="20231101 09:38:24.543" endtime="20231101 09:38:24.543"/>
+</kw>
+<status status="PASS" starttime="20231101 09:38:24.542" endtime="20231101 09:38:24.543"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${resp}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20231101 09:38:24.545" level="INFO">&lt;Response [404]&gt;</msg>
+<status status="PASS" starttime="20231101 09:38:24.544" endtime="20231101 09:38:24.545"/>
+</kw>
+<doc>Get all event fail,
+In case of:
+- invalid method</doc>
+<status status="PASS" starttime="20231101 09:38:24.317" endtime="20231101 09:38:24.545"/>
+</test>
+<status status="PASS" starttime="20231101 09:38:23.817" endtime="20231101 09:38:24.546"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Get All Events">Get All Events</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
